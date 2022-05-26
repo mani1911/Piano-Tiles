@@ -1,21 +1,22 @@
 const container = document.getElementsByClassName('container');
 const tiles = document.querySelectorAll('.tile')
 
-
+let isQuestionOver = false;
 let gameOver = false;
-const tileArray = [1,2,4];
-let round = 1;
+const tileArray = [];
+
 
 const selectRandomTile = ()=>{
     let tileNum = Math.floor(Math.random()*16);
-    if(tileArray.includes(tileNum)){
-        selectRandomTile();
+    while(true){
+        if(tileArray.includes(tileNum)){
+            tileNum = Math.floor(Math.random()*16);
+        }
+        else{
+            return tileNum;
+        }
     }
-    else{
-        tileArray.push(tileNum);
-        console.log(tileArray);
-    }
-}
+};
 
 const displayTile = (n)=>{
      const blink = setTimeout(()=>{
@@ -26,6 +27,15 @@ const displayTile = (n)=>{
     },750);
 }; 
 
+const playQuestion = (n)=>{
+    const question = setInterval(()=>{
+        let randTile = selectRandomTile();
+        tileArray.push(randTile);
+        displayTile(randTile);
+    },1500);
+    setTimeout(()=>{clearInterval(question)}, n*1500);
+}
+
 
 tiles.forEach(tile => {
     tile.addEventListener('click', (e)=>{
@@ -33,7 +43,21 @@ tiles.forEach(tile => {
     })
 });
 
-displayTile(0);
+playQuestion(3);
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
 
 
 

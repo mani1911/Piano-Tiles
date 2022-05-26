@@ -17,6 +17,8 @@ body{
     background-position: center;
 }
 h1{
+    font-family: 'Roboto Mono', monospace;
+    font-size: 45px;
     color : white;
     text-align: center;
     margin-top : 1.5rem;
@@ -29,7 +31,8 @@ h1{
     flex-flow: row wrap;
     height : 72vh;
     min-width: 75%;
-    border : 0px solid black;
+    border : 7px solid white;
+    background-color: white;
     margin : 1.5rem auto;
 }
 

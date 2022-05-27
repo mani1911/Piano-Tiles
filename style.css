@@ -25,33 +25,31 @@ h1{
 }
 
 .container{
-    margin : 1.5rem;
-    box-shadow: 6px 6px 16px 0px rgba(0,0,0,0.75);
+    margin : 10px auto;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
     display : flex;
-    gap : 1px 1px;
+    gap : 2px 2px;
     justify-content: space-evenly;
     flex-flow: row wrap;
-    height : 75%;
-    width: 75%;
-    border : 7px solid white;
-    background-color: white;
-    max-width : 700px;
-    min-height : 400px;
+    height : 495px;
+    width: 495px;
+    border : 7px solid black;
+    background-color: black;
+
 
 }
 
 .tile{
-    background-color: #46089d;
-    flex : 1 0 auto;
+    background-color: white;
+    flex : 1 1 auto;
     width : 21%;
     cursor: pointer;
 }
 
-.tile:hover{
-    background-color: #620ed7;
-}
+
 
 button {
+
     color: #090909;
     padding: 0.7em 1.7em;
     font-size: 18px;
@@ -69,5 +67,25 @@ button {
    }
 
    .dummy{
+       box-shadow : 0 8px 8px -4px;
        background-color: black;
+   }
+
+   .menu{
+       display: flex;
+       justify-content: center;
+       align-items:center;
+       width: 450px;
+   }
+
+   .score{
+       margin-left: auto;
+        font-size: larger;
+
+   }
+
+   .time{
+       margin-left: 5px;
+       margin-right: 5px;
+       font-size: larger;
    }

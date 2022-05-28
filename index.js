@@ -2,8 +2,9 @@ const container = document.getElementsByClassName('container');
 const tiles = document.querySelectorAll('.tile')
 const button = document.querySelector('button');
 const score = document.querySelector('.score');
-
-
+const audio = new Audio('click.wav');
+const roundProgressAudio = new Audio('round-progress.wav');
+const error = new Audio('error.wav');
 const tileArray = [];
 
 var isGameOver = true;
@@ -50,9 +51,11 @@ function timeout(ms) {
 }
 
 const displayTile = async (n)=>{
+    audio.play();
     tiles[n].classList.toggle('dummy');
     await timeout(500);
     tiles[n].classList.toggle('dummy');
+    audio.stop()
 }; 
 
 const printOrder = async (tilesList)=>{
@@ -97,7 +100,7 @@ const playRound = async (n)=>{
     await readInput(n);
 }
 
-const evaluate = (n)=>{
+const normalEvaluate = (n)=>{
     if(tileMap[n].length != userInput.length){
         return false;
     }
@@ -115,13 +118,14 @@ const startGame = async ()=>{
     let points = 1;
     while(points <= 16 && !gameOver){
         await playRound(points);
-        gameOver = !evaluate(points);
+        gameOver = !normalEvaluate(points);
         if(gameOver) {
-            alert(`GameOver -> Your Score : ${points-1}`)
+            await error.play();
             break;
         };
         points ++;
         updateScore(points-1);
+        await roundProgressAudio.play();
     }
 }
 

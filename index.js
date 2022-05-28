@@ -11,7 +11,7 @@ var remainingTiles = [];
 var tileMap = {};
 var userInput = [];
 var gameOver = false;
-
+var renderingRound = false;
 const resetGame = ()=>{
     for(let i=0;i<16;i++){
         remainingTiles.push(i);
@@ -20,6 +20,7 @@ const resetGame = ()=>{
     tileMap[0] = [];
     gameOver = false;
     updateScore(0);
+    renderingRound = false;
 };
 
 const updateScore = (points)=>{
@@ -55,23 +56,25 @@ const displayTile = async (n)=>{
 }; 
 
 const printOrder = async (tilesList)=>{
-    for(let element of tilesList){
-        await timeout(500);
-        displayTile(element);
-    };
+    if(!renderingRound){
+        renderingRound = true;
+        for(let element of tilesList){
+            await timeout(500);
+            displayTile(element);
+        };
+        renderingRound = false;
+    }
+    
 }; 
 
-const playQuestion = async (n)=>{
+const readQuestion = async (n)=>{
     let prevOrder = tileMap[n-1];
     let newTile = selectRandomTile();
     let currentOrder = prevOrder.slice();
     currentOrder.push(newTile);
     tileMap[n] = currentOrder;
-    await printOrder(tileMap[n]);
 };
 
-var round = 1;
-var clickCount = 1;
 const checkInput = ()=>{
     console.log('Hello')
 }
@@ -83,13 +86,14 @@ const setUserInput = async ()=>{
 const readInput = async (n)=>{
     userInput = [];
     while(userInput.length < n){
-        await timeout(1000);
+        await timeout(100);
     };
     return userInput;
 }
 
 const playRound = async (n)=>{
-    await playQuestion(n); 
+    await readQuestion(n); 
+    await printOrder(tileMap[n]);
     await readInput(n);
 }
 
@@ -106,14 +110,16 @@ const evaluate = (n)=>{
 }
 
 renderClick();
-resetGame();
 
 const startGame = async ()=>{
     let points = 1;
     while(points <= 16 && !gameOver){
         await playRound(points);
         gameOver = !evaluate(points);
-        if(gameOver) break;
+        if(gameOver) {
+            alert(`GameOver -> Your Score : ${points-1}`)
+            break;
+        };
         points ++;
         updateScore(points-1);
     }
@@ -121,41 +127,6 @@ const startGame = async ()=>{
 
 
 button.addEventListener("click", ()=>{
-    if(button.innerHTML == "Start"){
-        resetGame();
-        startGame();
-        button.innerHTML = "Reset";
-    }else{
-        resetGame();
-        button.innerHTML = "Start";
-    }
+    resetGame();
+    startGame();
 })
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

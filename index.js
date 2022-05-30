@@ -4,6 +4,8 @@ const normalBtn = document.querySelector('.normal');
 const hackerBtn = document.querySelector('.hacker');
 const tiles = document.querySelectorAll('.tile');
 const tiles1 = document.querySelectorAll('.tile1');
+const nmode = document.querySelector('.nmode');
+const hmode = document.querySelector('.hmode'); 
 
 const score = document.querySelector('.score');
 const audio = new Audio('click.wav');
@@ -17,6 +19,41 @@ var userInput = [];
 var gameOver = false;
 var renderingRound = false;
 var playerLost = false;
+var normalLeaderBoard = "";
+var hackerLeaderBoard = "";
+
+localStorage.normal = normalLeaderBoard;
+localStorage.hacker = hackerLeaderBoard
+
+
+const updateLeaderBoard = (mode,score)=>{
+    if(mode){
+        localStorage.normal+= score;
+        console.log(localStorage.normal)
+    }
+    else{
+        localStorage.hacker+=score;
+    }
+    setLeaderBoard();
+}
+const setLeaderBoard = (mode)=>{
+
+    let nMax =0;
+    let hMax =0;
+    for(let i of localStorage.normal){
+        if(parseInt(i) > nMax){
+            nMax = i;
+        }
+    }
+    for(let i of localStorage.hacker){
+        if(parseInt(i) > hMax){
+            hMax = i;
+        }
+    }
+
+    nmode.innerHTML = `Normal Mode : ${nMax}`;
+    hmode.innerHTML = `Hacker Mode : ${hMax}`;
+}
 
 
 const setMode = async (mode)=>{
@@ -26,6 +63,7 @@ const setMode = async (mode)=>{
 }
 
 const resetGame = ()=>{   
+    
     remainingTiles=[];
     for(let i=0;i<(isNormalMode?16:36);i++){
         remainingTiles.push(i);
@@ -57,7 +95,7 @@ const renderClick = (t)=>{
 
 
 const selectRandomTile = ()=>{
-    console.log(remainingTiles)
+    
     let size = remainingTiles.length;
     if(size==0) return -1;
     let tilePosition = Math.floor(Math.random()*size);
@@ -149,6 +187,7 @@ const credits = async(p)=>{
     else{
         alert(`You Won the Round - Your Score : ${p}`)
     }
+    updateLeaderBoard(isNormalMode,p);
     
 }
 
@@ -173,11 +212,7 @@ const startGame = async ()=>{
 normalBtn.addEventListener("click", ()=>{
     alert('Order of Tiles is not Mandatory')
     setMode(true);
-    tiles1.forEach(tile=>{
-        tile.removeEventListener("click", ()=>{
-            userInput.push(parseInt(tile.innerHTML));
-        })
-    })
+
     resetGame();
     normalCont.style.display = "flex";
     hackerCont.style.display = "none";

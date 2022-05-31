@@ -24,6 +24,12 @@ h1{
     margin : 1rem;
 }
 
+.game{
+    display : flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .normal-container{
     display : none;
     margin : 10px auto;
@@ -32,8 +38,7 @@ h1{
     gap : 2px 2px;
     justify-content: space-evenly;
     flex-flow: row wrap;
-    min-height : 495px;
-    min-width: 495px;
+
     height : 495px;         
     width: 495px;
     border : 5px solid black;
@@ -50,8 +55,7 @@ h1{
     gap : 2px 2px;
     justify-content: space-evenly;
     flex-flow: row wrap;
-    min-height : 520px;
-    min-width: 520px;
+
     height : 520px;         
     width: 520px;
     border : 7px solid black;
@@ -70,10 +74,16 @@ h1{
     cursor: pointer;
 }
 
-
+.buttons{
+    display: flex;
+    padding: 4px;
+    justify-content: space-between;
+}
 
 button {
-    margin-right: 5px;
+    flex: 0 1 auto;
+    margin-left: 4px;
+    margin-bottom: 3px;
     color: #090909;
     padding: 0.7em 1.7em;
     font-size: 18px;
@@ -113,8 +123,37 @@ button {
        margin-right: 5px;
        font-size: larger;
    }
-
-   .selected{
-       background-color: #666;
+   .leaderBoard{
+       display: block;
+       width : 300px;
+       text-align: center;
+       
+       margin-bottom: 6px;
    }
 
+   .leaderBoard > h2{
+       font-family: 'Roboto Mono', monospace;
+       margin-bottom: 3px;
+       border-bottom: 1px solid black;
+   }
+   .scores{
+       display: flex;
+       font-size: medium;
+       justify-content: space-around;
+   }
+
+   @media (max-width: 768px){
+       .menu{
+           display: flex;
+           flex-direction: column; 
+           justify-content: center;
+       }
+       .score{
+           margin-right: auto;
+           
+       }
+       .game{
+           width : 100%;
+
+       }
+   }

@@ -6,10 +6,12 @@
 }
 
 body{
+    text-align: center;
     display : flex;
     flex-direction: column;
     align-items: center;
     height: 100vh;
+
 
     background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
     background-repeat: no-repeat;
@@ -128,7 +130,7 @@ button {
        width : 300px;
        text-align: center;
        
-       margin-bottom: 6px;
+       margin: 1.5rem;
    }
 
    .leaderBoard > h2{
@@ -152,8 +154,13 @@ button {
            margin-right: auto;
            
        }
-       .game{
-           width : 100%;
 
+       .normal-container{
+           width : 300px;
+           height : 300px;
+       }
+       .hacker-container{
+           width : 350px;
+           height : 350px;
        }
    }

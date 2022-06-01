@@ -6,18 +6,17 @@ const tiles = document.querySelectorAll('.tile');
 const tiles1 = document.querySelectorAll('.tile1');
 const nmode = document.querySelector('.nmode');
 const hmode = document.querySelector('.hmode'); 
-
 const score = document.querySelector('.score');
 const audio = new Audio('click.wav');
 const roundProgressAudio = new Audio('round-progress.wav');
 const error = new Audio('error.wav');
+
 var isNormalMode = null;
 var isGameOver = true;
 var remainingTiles = [];
 var tileMap = {};
 var userInput = [];
 var gameOver = false;
-var renderingRound = false;
 var playerLost = false;
 var normalLeaderBoard = "";
 var hackerLeaderBoard = "";
@@ -118,14 +117,10 @@ const displayTile = async (n)=>{
 }; 
 
 const printOrder = async (tilesList)=>{
-    if(!renderingRound){
-        renderingRound = true;
-        for(let element of tilesList){
-            await timeout(500);
-            displayTile(element);
-        };
-        renderingRound = false;
-    }
+    for(let element of tilesList){
+        await timeout(500);
+        displayTile(element);
+    };
     
 }; 
 

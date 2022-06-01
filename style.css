@@ -145,6 +145,9 @@ button {
        font-size: medium;
        justify-content: space-around;
    }
+   .toggle{
+       display: none;
+   }
 
    @media (max-width: 768px){
 

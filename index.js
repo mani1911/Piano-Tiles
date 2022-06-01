@@ -2,6 +2,8 @@ const normalCont = document.querySelector('.normal-container');
 const hackerCont = document.querySelector('.hacker-container');
 const normalBtn = document.querySelector('.normal');
 const hackerBtn = document.querySelector('.hacker');
+const customBtn = document.querySelector('.custom');
+const toggleBtn = document.querySelector('.toggle');
 const tiles = document.querySelectorAll('.tile');
 const tiles1 = document.querySelectorAll('.tile1');
 const nmode = document.querySelector('.nmode');
@@ -11,6 +13,8 @@ const audio = new Audio('click.wav');
 const roundProgressAudio = new Audio('round-progress.wav');
 const error = new Audio('error.wav');
 
+
+var isCustom = false;
 var isNormalMode = null;
 var isGameOver = true;
 var remainingTiles = [];
@@ -20,6 +24,7 @@ var gameOver = false;
 var playerLost = false;
 var normalLeaderBoard = "";
 var hackerLeaderBoard = "";
+var isQuestion = false;
 
 localStorage.normal = normalLeaderBoard;
 localStorage.hacker = hackerLeaderBoard
@@ -118,23 +123,36 @@ const displayTile = async (n)=>{
 
 const printOrder = async (tilesList)=>{
     for(let element of tilesList){
-        await timeout(500);
+        await timeout(700);
         displayTile(element);
     };
     
 }; 
 
 const readQuestion = async (n)=>{
-    let prevOrder = tileMap[n-1];
-    let newTile = selectRandomTile();
-    let currentOrder = prevOrder.slice();
-    currentOrder.push(newTile);
-    tileMap[n] = currentOrder;
+    if(isCustom){
+        tileMap[n] = userInput;
+    }
+    else{
+        let prevOrder = tileMap[n-1];
+        let newTile = selectRandomTile();
+        let currentOrder = prevOrder.slice();
+        currentOrder.push(newTile);
+        tileMap[n] = currentOrder;
+    }
+    
 };
 
-
+const readCustomInput = async()=>{
+    userInput = [];
+    while(userInput.length < 36 && isQuestion){
+        await timeout(10);
+    };
+    return userInput;
+}
 
 const readInput = async (n)=>{
+
     userInput = [];
     while(userInput.length < n){
         await timeout(10);
@@ -173,6 +191,16 @@ const normalEvaluate = (n)=>{
     return true;
 }
 
+const customEvaluate = (q, a)=>{
+    let checkArray = userInput.slice();
+    for(let i=0; i<q.length; i++){
+        if(q[i] != checkArray[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
 
 const credits = async(p)=>{
     await timeout(1500);
@@ -203,21 +231,74 @@ const startGame = async ()=>{
     await credits(points-1);
 }
 
+const startCustomGame = async ()=>{
+    isQuestion = true;
+    let questionTiles = await readCustomInput();
+    let qSize = questionTiles.length;
+    if(qSize == 0){
+        alert('Question set cannot be Empty');
+        startCustomGame();
+    }
+    else{
+        toggleBtn.innerHTML = "Set Question"
+        await printOrder(questionTiles);
+        const answerTiles = await readInput(qSize);
+        if(customEvaluate(questionTiles, answerTiles)){
+            alert('Player Won')
+        }
+        else{
+            alert('Player Lost')
+        }
+    }
+    
+
+
+}
+
 
 normalBtn.addEventListener("click", ()=>{
+    isCustom = false;
     alert('Order of Tiles is not Mandatory')
     setMode(true);
 
     resetGame();
+    toggleBtn.style.display = "none";
     normalCont.style.display = "flex";
     hackerCont.style.display = "none";
     startGame();
 })
 hackerBtn.addEventListener("click", ()=>{
+    isCustom = false;
     alert('Order of tiles is Mandatory')
     setMode(false);
     resetGame();
+    toggleBtn.style.display = "none";
     normalCont.style.display = "none";
     hackerCont.style.display = "flex";
     startGame();
 })
+customBtn.addEventListener('click',()=>{
+
+    isCustom = true;
+    isQuestion = true;
+    toggleBtn.style.display = "block"
+    alert('Custom Mode : Set your Question and press answer to play')
+    resetGame();
+    normalCont.style.display = "none";
+    hackerCont.style.display = "flex";
+    startCustomGame();
+
+})
+
+toggleBtn.addEventListener('click',()=>{
+    if(isQuestion){
+        isQuestion = false;
+        toggleBtn.innerHTML = "Set Question";
+    }
+    else{
+        isQuestion = true;
+        toggleBtn.innerHTML = "Answer";
+        startCustomGame();
+    }
+})
+

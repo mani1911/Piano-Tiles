@@ -114,6 +114,9 @@ function timeout(ms) {
 
 const displayTile = async (n)=>{
     let t = isNormalMode?tiles:tiles1;
+    if(isCustom){
+        t = tiles1;
+    }
     audio.play();
     t[n].classList.toggle('dummy');
     await timeout(500);
@@ -123,7 +126,7 @@ const displayTile = async (n)=>{
 
 const printOrder = async (tilesList)=>{
     for(let element of tilesList){
-        await timeout(700);
+        await timeout(500);
         displayTile(element);
     };
     
@@ -278,27 +281,34 @@ hackerBtn.addEventListener("click", ()=>{
     startGame();
 })
 customBtn.addEventListener('click',()=>{
-
+    userInput = [];
+    toggleBtn.innerHTML = "Answer";
     isCustom = true;
     isQuestion = true;
     toggleBtn.style.display = "block"
-    alert('Custom Mode : Set your Question and press answer to play')
-    resetGame();
+    alert('Custom Mode : Set your Question and press answer to play');
+    renderClick(tiles1);
     normalCont.style.display = "none";
     hackerCont.style.display = "flex";
     startCustomGame();
 
 })
 
-toggleBtn.addEventListener('click',()=>{
+const changeToggle = ()=>{
     if(isQuestion){
-        isQuestion = false;
         toggleBtn.innerHTML = "Set Question";
+        isQuestion = false;
     }
     else{
         isQuestion = true;
         toggleBtn.innerHTML = "Answer";
+        renderClick(tiles1);
         startCustomGame();
     }
+}
+
+toggleBtn.addEventListener('click',()=>{
+    
+    changeToggle();
 })
 

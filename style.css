@@ -11,6 +11,8 @@ body{
     flex-direction: column;
     align-items: center;
     height: 100vh;
+    padding-left: auto;
+    padding-right: auto;
 
 
     background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
@@ -87,7 +89,7 @@ button {
     margin-left: 4px;
     margin-bottom: 3px;
     color: #090909;
-    padding: 0.7em 1.7em;
+    padding: 0.7em 0.7rem;
     font-size: 18px;
     border-radius: 0.5em;
     background: #e8e8e8;
@@ -108,14 +110,14 @@ button {
    }
 
    .menu{
-       display: flex;
-       justify-content: center;
-       align-items:center;
+        display: flex;
+        flex-direction: column; 
+        justify-content: center;
        
    }
 
    .score{
-       margin-left: auto;
+       
         font-size: larger;
 
    }
@@ -143,17 +145,11 @@ button {
        font-size: medium;
        justify-content: space-around;
    }
+   .toggle{
+       display: none;
+   }
 
    @media (max-width: 768px){
-       .menu{
-           display: flex;
-           flex-direction: column; 
-           justify-content: center;
-       }
-       .score{
-           margin-right: auto;
-           
-       }
 
        .normal-container{
            width : 300px;
